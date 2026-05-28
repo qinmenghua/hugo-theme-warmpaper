@@ -1,6 +1,6 @@
 name = "Hugo Warmpaper"
 license = "MIT"
-licenselink = "https://github.com/qinmenghua/hugo-warmpaper/blob/main/LICENSE"
+licenselink = "https://github.com/qinmenghua/hugo-theme-warmpaper/blob/main/LICENSE"
 description = "A warm, Claude-inspired Hugo blog theme with graph paper background"
 homepage = "https://awy.me"
 tags = ["blog", "warm", "claude", "responsive", "dark mode"]

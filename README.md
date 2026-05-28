@@ -4,6 +4,8 @@ A warm, Claude-inspired Hugo blog theme with graph paper background.
 
 Port of [hexo-theme-warmpaper](https://github.com/finch-xu/hexo-theme-warmpaper)（Hexo/EJS → Hugo/Go 模板）
 
+[中文文档](README.zh.md)
+
 - **Requires Hugo >= 0.123.0**
 
 ## Features
@@ -24,7 +26,7 @@ Port of [hexo-theme-warmpaper](https://github.com/finch-xu/hexo-theme-warmpaper)
 
 ```bash
 cd your-hugo-site
-git clone https://github.com/qinmenghua/hugo-warmpaper.git themes/warmpaper
+git clone https://github.com/qinmenghua/hugo-theme-warmpaper.git themes/warmpaper
 ```
 
 ### Hugo Modules
@@ -38,7 +40,7 @@ Then add to `hugo.toml`:
 ```toml
 [module]
   [[module.imports]]
-    path = "github.com/qinmenghua/hugo-warmpaper"
+    path = "github.com/qinmenghua/hugo-theme-warmpaper"
 ```
 
 Update the module:

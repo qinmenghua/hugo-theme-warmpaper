@@ -4,6 +4,8 @@
 
 从 [hexo-theme-warmpaper](https://github.com/finch-xu/hexo-theme-warmpaper)（Hexo/EJS）移植到 Hugo（Go 模板）。
 
+[English](README.md)
+
 - **需要 Hugo >= 0.123.0**
 
 ## 功能特性
@@ -24,7 +26,7 @@
 
 ```bash
 cd your-hugo-site
-git clone https://github.com/qinmenghua/hugo-warmpaper.git themes/warmpaper
+git clone https://github.com/qinmenghua/hugo-theme-warmpaper.git themes/warmpaper
 ```
 
 ### Hugo 组件方式
@@ -38,7 +40,7 @@ hugo mod init your-site
 ```toml
 [module]
   [[module.imports]]
-    path = "github.com/qinmenghua/hugo-warmpaper"
+    path = "github.com/qinmenghua/hugo-theme-warmpaper"
 ```
 
 更新组件：
