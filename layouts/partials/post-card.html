@@ -1,0 +1,25 @@
+<article class="post-card">
+  <h2 class="post-card-title">
+    <a href="{{ .RelPermalink }}">{{ .Title | default "(Untitled)" }}</a>
+  </h2>
+  <div class="post-card-meta">
+    <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">{{ .Date.Format "2006-01-02" }}</time>
+    {{ with .Params.categories }}
+      <span class="separator">&middot;</span>
+      {{ range . }}
+        <a href="{{ "/categories/" | relURL }}{{ . | urlize }}">{{ . }}</a>
+      {{ end }}
+    {{ end }}
+  </div>
+  <div class="post-card-excerpt">
+    <p>{{ .Summary | replaceRE `(?s)<blockquote class="alert[^>]*>.*?</blockquote>` "" | plainify | truncate 200 }}</p>
+  </div>
+  <a class="read-more" href="{{ .RelPermalink }}">{{ $.Site.Params.excerpt_link | default "Read More" }} &rarr;</a>
+  {{ with .Params.tags }}
+    <div class="post-card-tags">
+      {{ range . }}
+        <a href="{{ "/tags/" | relURL }}{{ . | urlize }}">#{{ . }}</a>
+      {{ end }}
+    </div>
+  {{ end }}
+</article>

@@ -1,0 +1,14 @@
+{{ define "main" }}
+{{ $posts := where site.RegularPages "Type" "in" site.Params.mainSections }}
+{{ $paginator := .Paginate $posts }}
+
+{{ if and .Site.Params.profile (eq $paginator.PageNumber 1) }}
+  {{ partial "profile.html" . }}
+{{ end }}
+<div class="post-list">
+  {{ range $paginator.Pages }}
+    {{ partial "post-card.html" . }}
+  {{ end }}
+</div>
+{{ partial "pagination.html" (dict "paginator" $paginator) }}
+{{ end }}

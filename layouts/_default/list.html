@@ -1,0 +1,30 @@
+{{ define "main" }}
+<div class="archive">
+  <h1 class="archive-title">{{ .Title }}</h1>
+
+  {{ if eq .Kind "section" }}
+    {{ $pages := .Paginator.Pages }}
+    {{ range $pages.GroupByDate "2006" }}
+      <h2 class="archive-year">{{ .Key }}</h2>
+      {{ range .Pages }}
+        <div class="archive-post">
+          <span class="archive-post-date">{{ .Date.Format "01-02" }}</span>
+          <span class="archive-post-title"><a href="{{ .RelPermalink }}">{{ .Title | default "(Untitled)" }}</a></span>
+        </div>
+      {{ end }}
+    {{ end }}
+    {{ partial "pagination.html" . }}
+  {{ else }}
+    <div class="post-list">
+      {{ range .Paginator.Pages }}
+        {{ partial "post-card.html" . }}
+      {{ end }}
+    </div>
+    {{ partial "pagination.html" . }}
+  {{ end }}
+
+  {{ if not .Pages }}
+    <p class="no-data">{{ T "noData" | default "No pages yet." }}</p>
+  {{ end }}
+</div>
+{{ end }}

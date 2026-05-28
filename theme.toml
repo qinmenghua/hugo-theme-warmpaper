@@ -1,0 +1,12 @@
+name = "Hugo Warmpaper"
+license = "MIT"
+licenselink = "https://github.com/qinmenghua/hugo-warmpaper/blob/main/LICENSE"
+description = "A warm, Claude-inspired Hugo blog theme with graph paper background"
+homepage = "https://awy.me"
+tags = ["blog", "warm", "claude", "responsive", "dark mode"]
+features = ["toc", "dark mode", "responsive", "syntax highlighting", "tag cloud"]
+min_version = "0.123.0"
+
+[author]
+  name = "awyme"
+  homepage = "https://awy.me"

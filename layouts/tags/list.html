@@ -1,0 +1,17 @@
+{{ define "main" }}
+<div class="archive">
+  <h1 class="archive-title">{{ T "tags" | default "Tags" }}</h1>
+  {{ if .Site.Taxonomies.tags }}
+    <div class="tag-cloud">
+      {{ range .Site.Taxonomies.tags.Alphabetical }}
+        <a class="tag-cloud-item" href="{{ .Page.RelPermalink }}">
+          #{{ .Page.Title }}
+          <span class="tag-cloud-count">{{ .Count }}</span>
+        </a>
+      {{ end }}
+    </div>
+  {{ else }}
+    <p class="no-data">{{ T "noTags" | default "No tags yet." }}</p>
+  {{ end }}
+</div>
+{{ end }}

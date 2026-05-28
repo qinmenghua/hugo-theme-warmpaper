@@ -1,0 +1,13 @@
+{{- $titles := dict "note" "备注" "tip" "提示" "important" "重要" "warning" "警告" "caution" "注意" -}}
+{{- $type := .AlertType -}}
+{{- if $type -}}
+  {{- $title := index $titles $type | default (title $type) -}}
+<blockquote class="alert alert-{{ $type }}">
+  <p class="alert-heading">{{ $title }}</p>
+  {{ .Text | safeHTML }}
+</blockquote>
+{{- else -}}
+<blockquote>
+  {{ .Text | safeHTML }}
+</blockquote>
+{{- end -}}

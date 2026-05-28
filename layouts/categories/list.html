@@ -1,0 +1,17 @@
+{{ define "main" }}
+<div class="archive">
+  <h1 class="archive-title">{{ T "categories" | default "Categories" }}</h1>
+  {{ if .Site.Taxonomies.categories }}
+    <div class="category-list">
+      {{ range .Site.Taxonomies.categories.Alphabetical }}
+        <a class="category-list-item" href="{{ .Page.RelPermalink }}">
+          <span class="category-list-name">{{ .Page.Title }}</span>
+          <span class="category-list-count">{{ .Count }}</span>
+        </a>
+      {{ end }}
+    </div>
+  {{ else }}
+    <p class="no-data">{{ T "noCategories" | default "No categories yet." }}</p>
+  {{ end }}
+</div>
+{{ end }}

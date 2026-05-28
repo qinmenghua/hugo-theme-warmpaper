@@ -1,0 +1,18 @@
+# Hugo
+public/
+.hugo_build.lock
+resources/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Example site local symlink
+exampleSite/themes/
+
+# Agent instructions
+AGENTS.md

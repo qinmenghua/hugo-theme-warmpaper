@@ -1,0 +1,7 @@
+{{ define "main" }}
+<div class="error-page">
+  <h1>404</h1>
+  <p>{{ T "notFound" | default "Page not found" }}</p>
+  <a href="{{ "/" | relURL }}">&larr; {{ T "backHome" | default "Back to Home" }}</a>
+</div>
+{{ end }}

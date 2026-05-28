@@ -1,0 +1,59 @@
+{{ define "main" }}
+{{ $isPost := in .Site.Params.mainSections .Type }}
+{{ if $isPost }}
+<article class="post">
+  <header class="post-header">
+    <h1 class="post-title">{{ .Title }}</h1>
+    <div class="post-meta">
+      <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">{{ .Date.Format "2006-01-02" }}</time>
+      {{ if and .Lastmod (gt .Lastmod .Date) }}
+        <span class="separator">&middot;</span>
+        <time class="updated-time" datetime="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">更新于 {{ .Lastmod.Format "2006-01-02" }}</time>
+      {{ end }}
+      <span class="separator">&middot;</span>
+      <span class="reading-time">约 {{ .ReadingTime }} 分钟阅读</span>
+      {{ with .Params.categories }}
+        <span class="separator">&middot;</span>
+        {{ range . }}
+          <a href="{{ "/categories/" | relURL }}{{ . | urlize }}">{{ . }}</a>
+        {{ end }}
+      {{ end }}
+    </div>
+  </header>
+  <div class="post-body-wrapper">
+    <div class="post-content">
+      {{ .Content }}
+    </div>
+    {{ if and $.Site.Params.toc $.Site.Params.toc.enable }}
+      {{ if $.TableOfContents }}
+        {{ partial "toc.html" $ }}
+      {{ end }}
+    {{ end }}
+  </div>
+  <footer class="post-footer">
+    {{ with .Params.tags }}
+      <div class="post-tags">
+        {{ range . }}
+          <a href="{{ "/tags/" | relURL }}{{ . | urlize }}">#{{ . }}</a>
+        {{ end }}
+      </div>
+    {{ end }}
+    <nav class="post-nav">
+      {{ with .PrevInSection }}
+        <a class="prev" href="{{ .RelPermalink }}">&laquo; {{ .Title }}</a>
+      {{ end }}
+      {{ with .NextInSection }}
+        <a class="next" href="{{ .RelPermalink }}">{{ .Title }} &raquo;</a>
+      {{ end }}
+    </nav>
+  </footer>
+</article>
+{{ else }}
+<article class="page-content">
+  <h1>{{ .Title }}</h1>
+  <div class="post-content">
+    {{ .Content }}
+  </div>
+</article>
+{{ end }}
+{{ end }}

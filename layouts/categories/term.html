@@ -1,0 +1,13 @@
+{{ define "main" }}
+<div class="archive">
+  <h1 class="category-title"><span>#</span> {{ .Title }}</h1>
+  {{ range .Pages }}
+    <div class="archive-post">
+      <span class="archive-post-date">{{ .Date.Format "2006-01-02" }}</span>
+      <span class="archive-post-title">
+        <a href="{{ .RelPermalink }}">{{ .Title | default "(Untitled)" }}</a>
+      </span>
+    </div>
+  {{ end }}
+</div>
+{{ end }}
