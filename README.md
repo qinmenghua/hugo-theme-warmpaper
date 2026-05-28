@@ -99,4 +99,4 @@ See `exampleSite/hugo.toml` for a complete configuration example.
   ordered = false
 ```
 
-MIT
+[MIT](LICENSE) © 2026 awyme

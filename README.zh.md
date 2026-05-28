@@ -101,4 +101,4 @@ theme = "warmpaper"
 
 ## 许可证
 
-MIT
+[MIT](LICENSE) © 2026 awyme
