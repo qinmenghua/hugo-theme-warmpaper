@@ -4,9 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
   <title>Warmpaper Theme Preview</title>
+  <link rel="canonical" href="#">
+  <meta name="description" content="Warmpaper — a warm, paper-textured Hugo blog theme. Preview of homepage and post layout.">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-gb-web@latest/lxgwwenkaigb-regular/result.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-gb-web@latest/lxgwwenkaigb-medium/result.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-gb-web@1.522.0/lxgwwenkaigb-regular/result.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-gb-web@1.522.0/lxgwwenkaigb-medium/result.css">
   <style>
     /* === Theme CSS (inline for preview) === */
     :root {
@@ -34,6 +36,30 @@
       --radius: 8px;
       --shadow-card: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02);
       --shadow-card-hover: 0 4px 12px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.03);
+      --color-table-stripe: rgba(240, 235, 227, 0.3);
+
+      /* Dark mode */
+      --color-header-bg: rgba(250, 249, 247, 0.85);
+    }
+    /* --- Dark Mode --- */
+    :root[data-theme="dark"] {
+      --color-bg: #1F1B17;
+      --color-surface: #2B2520;
+      --color-surface-hover: #332C26;
+      --color-code-bg: #15110E;
+      --color-accent: #E89576;
+      --color-accent-hover: #F0A88B;
+      --color-text: #EDE4D9;
+      --color-text-secondary: #A8A099;
+      --color-text-tertiary: #756E66;
+      --color-border: #3A332C;
+      --color-border-light: #2F2924;
+      --grid-color: rgba(218,119,86,0.045);
+      --grid-color-strong: rgba(218,119,86,0.08);
+      --shadow-card: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+      --shadow-card-hover: 0 4px 12px rgba(0,0,0,0.4), 0 2px 4px rgba(0,0,0,0.25);
+      --color-table-stripe: rgba(50, 40, 32, 0.35);
+      --color-header-bg: rgba(31, 27, 23, 0.85);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 1rem); }
@@ -63,7 +89,7 @@
     .main-content { flex: 1; width: 100%; max-width: var(--page-width); margin: 0 auto; padding: 2rem 1.5rem; }
     .site-header {
       position: sticky; top: 0; z-index: 100;
-      background-color: rgba(250, 249, 247, 0.85);
+      background-color: var(--color-header-bg);
       backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--color-border-light);
     }
@@ -77,6 +103,36 @@
     .nav-link { font-size: 0.9rem; font-weight: 500; color: var(--color-text-secondary); transition: color 0.2s; }
     .nav-link:hover { color: var(--color-accent); }
     .nav-link.active { color: var(--color-accent); }
+
+    /* Theme toggle */
+    .theme-toggle {
+      background: none; border: none; cursor: pointer; color: var(--color-text-secondary);
+      width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+      border-radius: 6px; transition: background 0.2s, color 0.2s; position: relative;
+    }
+    .theme-toggle:hover { background: var(--color-surface); color: var(--color-accent); }
+    .theme-toggle svg { width: 18px; height: 18px; display: none; }
+    .theme-toggle[data-theme-state="light"] .icon-sun,
+    .theme-toggle[data-theme-state="dark"] .icon-moon { display: block; }
+
+    /* Code copy button */
+    .code-copy-btn {
+      position: absolute; top: 8px; right: 8px; padding: 4px 10px;
+      font-size: 12px; line-height: 1.4; color: var(--color-text-tertiary);
+      background: transparent; border: 1px solid var(--color-border-light);
+      border-radius: 6px; cursor: pointer; opacity: 0;
+      transition: opacity 0.2s, color 0.2s, border-color 0.2s;
+    }
+    pre:hover .code-copy-btn { opacity: 1; }
+    .code-copy-btn:hover { color: var(--color-accent); border-color: var(--color-accent); }
+    .code-copy-btn.copied { color: #3c763d; border-color: #3c763d; }
+
+    /* Reading progress bar */
+    .reading-progress-bar {
+      position: fixed; top: 0; left: 0; width: 100%; height: 2.5px;
+      background: var(--color-accent); transform-origin: left; transform: scaleX(0);
+      z-index: 1000; pointer-events: none; transition: transform 0.05s linear;
+    }
 
     /* View switcher */
     .view-switcher {
@@ -129,7 +185,10 @@
     .post-title-detail { font-family: var(--font-serif); font-size: 2rem; font-weight: 700; line-height: 1.35; letter-spacing: -0.02em; margin-bottom: 0.75rem; }
     .post-meta { display: flex; justify-content: center; align-items: center; gap: 0.75rem; font-size: 0.88rem; color: var(--color-text-tertiary); flex-wrap: wrap; }
     .post-meta .separator { color: var(--color-border); }
-    .post-body-wrapper { position: relative; max-width: var(--content-width); margin: 0 auto; }
+    .post-body-wrapper { display: flex; gap: 2rem; max-width: var(--page-width); margin: 0 auto; justify-content: center; }
+    .post-body-wrapper .post-content {
+      flex: 1; min-width: 0; max-width: var(--content-width);
+    }
     .post-content {
       font-family: var(--font-serif); font-size: 1.06rem; line-height: 1.85;
     }
@@ -158,12 +217,12 @@
     .post-content table { width: 100%; border-collapse: collapse; margin: 1.5em 0; font-size: 0.95rem; }
     .post-content th, .post-content td { padding: 0.6em 1em; border: 1px solid var(--color-border); text-align: left; }
     .post-content th { background: var(--color-code-bg); font-weight: 600; }
-    .post-content tr:nth-child(even) { background: rgba(240,235,227,0.3); }
+    .post-content tr:nth-child(even) { background: var(--color-table-stripe); }
     .post-content img { border-radius: var(--radius); margin: 1em 0; }
     .post-content hr { border: none; height: 1px; background: var(--color-border); margin: 2em 0; }
 
     /* TOC sidebar */
-    .toc-sidebar { position: absolute; left: calc(100% + 2rem); top: 0; width: var(--sidebar-width); }
+    .toc-sidebar { flex-shrink: 0; width: var(--sidebar-width); }
     .toc-wrapper {
       position: sticky; top: calc(var(--header-height) + 2rem);
       max-height: calc(100vh - var(--header-height) - 4rem);
@@ -249,6 +308,10 @@
           <a class="nav-link active" href="#" onclick="switchView('home')">Home</a>
           <a class="nav-link" href="#">Archives</a>
           <a class="nav-link" href="#">About</a>
+          <button class="theme-toggle" type="button" aria-label="切换主题" title="切换主题">
+            <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+            <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
         </nav>
       </div>
     </header>
@@ -264,7 +327,7 @@
       <div class="view-home active">
         <!-- Profile Card -->
         <div class="profile-card">
-          <img class="profile-avatar" src="static/images/logo.svg" alt="Logo">
+          <img class="profile-avatar" src="static/images/logo.svg" alt="Warmpaper Blog 的头像" fetchpriority="high">
           <h2 class="profile-name">Warmpaper Blog</h2>
           <p class="profile-description">A warm place for thoughts and code.</p>
           <div class="profile-links">
@@ -553,8 +616,8 @@ let pool = PgPoolOptions::new()
               <a href="#">#Actix-web</a>
             </div>
             <nav class="post-nav">
-              <a href="#">&laquo; CSS Container Queries 实战指南</a>
-              <a href="#">从零理解 Transformer 架构 &raquo;</a>
+              <a class="prev" href="#" aria-label="上一篇: CSS Container Queries 实战指南">&laquo; CSS Container Queries 实战指南</a>
+              <a class="next" href="#" aria-label="下一篇: 从零理解 Transformer 架构">从零理解 Transformer 架构 &raquo;</a>
             </nav>
           </footer>
         </article>
@@ -565,7 +628,7 @@ let pool = PgPoolOptions::new()
     <!-- Footer -->
     <footer class="site-footer">
       <div class="footer-inner">
-        <p>&copy; 2026 awyme</p>
+        <p>&copy; 2026 Warmpaper Blog</p>
         <p>Powered by <a href="https://gohugo.io/" target="_blank">Hugo</a> &middot; Theme <a href="https://github.com/qinmenghua/hugo-theme-warmpaper" target="_blank">Warmpaper</a></p>
         <p>Original <a href="https://github.com/finch-xu/hexo-theme-warmpaper" target="_blank">warmpaper</a> by <a href="https://pidan.dev" target="_blank">finch-xu</a></p>
       </div>
@@ -617,6 +680,102 @@ let pool = PgPoolOptions::new()
       }, { rootMargin: '-80px 0px -75% 0px' });
 
       headings.forEach(function(heading) { observer.observe(heading); });
+    })();
+
+    // Theme toggle
+    (function() {
+      var STORAGE_KEY = 'warmpaper-theme';
+      var btn = document.querySelector('.theme-toggle');
+      if (!btn) return;
+      var mql = window.matchMedia('(prefers-color-scheme: dark)');
+
+      // Initialize theme on html element
+      (function() {
+        try {
+          var saved = localStorage.getItem(STORAGE_KEY);
+          if (saved === 'dark' || saved === 'light') {
+            document.documentElement.setAttribute('data-theme', saved);
+          } else {
+            var isDark = mql.matches;
+            document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+          }
+        } catch(e) {}
+      })();
+
+      function currentTheme() {
+        try {
+          var saved = localStorage.getItem(STORAGE_KEY);
+          if (saved === 'light' || saved === 'dark') return saved;
+        } catch(e) {}
+        return mql.matches ? 'dark' : 'light';
+      }
+
+      function syncIcon() {
+        btn.setAttribute('data-theme-state', currentTheme());
+      }
+
+      btn.addEventListener('click', function() {
+        document.documentElement.style.transition = 'background-color 0.25s, color 0.25s';
+        var next = currentTheme() === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        try { localStorage.setItem(STORAGE_KEY, next); } catch(e) {}
+        btn.setAttribute('data-theme-state', next);
+        setTimeout(function() { document.documentElement.style.transition = ''; }, 300);
+      });
+
+      mql.addEventListener('change', function() {
+        var hasManual = false;
+        try { hasManual = !!localStorage.getItem(STORAGE_KEY); } catch(e) {}
+        if (!hasManual) syncIcon();
+      });
+
+      syncIcon();
+    })();
+
+    // Code block copy button
+    (function() {
+      var pres = document.querySelectorAll('.post-content pre');
+      if (!pres.length) return;
+      pres.forEach(function(pre) {
+        pre.style.position = 'relative';
+        var btn = document.createElement('button');
+        btn.className = 'code-copy-btn';
+        btn.type = 'button';
+        btn.setAttribute('aria-label', '复制代码');
+        btn.textContent = 'Copy';
+        btn.addEventListener('click', function() {
+          var code = pre.querySelector('code');
+          if (!code) return;
+          var text = code.textContent;
+          navigator.clipboard.writeText(text).then(function() {
+            btn.textContent = 'Copied!'; btn.classList.add('copied');
+            setTimeout(function() { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+          }).catch(function() {
+            var ta = document.createElement('textarea');
+            ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+            document.body.appendChild(ta); ta.select();
+            document.execCommand('copy'); document.body.removeChild(ta);
+            btn.textContent = 'Copied!'; btn.classList.add('copied');
+            setTimeout(function() { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+          });
+        });
+        pre.appendChild(btn);
+      });
+    })();
+
+    // Reading progress bar
+    (function() {
+      var postContent = document.querySelector('.post-content');
+      if (!postContent) return;
+      var bar = document.createElement('div');
+      bar.className = 'reading-progress-bar';
+      document.body.appendChild(bar);
+      window.addEventListener('scroll', function() {
+        var scrollTop = window.scrollY;
+        var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        var progress = docHeight > 0 ? Math.min(scrollTop / docHeight, 1) : 0;
+        bar.style.transform = 'scaleX(' + progress + ')';
+      }, { passive: true });
     })();
   </script>
 </body>

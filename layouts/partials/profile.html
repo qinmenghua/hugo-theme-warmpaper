@@ -1,7 +1,7 @@
 {{ with .Site.Params.profile }}
 <div class="profile-card">
   {{ with .avatar }}
-    <img class="profile-avatar" src="{{ . | relURL }}" alt="{{ $.Site.Title }}">
+    <img class="profile-avatar" src="{{ . | relURL }}" alt="{{ $.Site.Params.profile.name | default $.Site.Title }} 的头像" fetchpriority="high">
   {{ end }}
   <h2 class="profile-name">{{ $.Site.Title }}</h2>
   {{ with .description }}

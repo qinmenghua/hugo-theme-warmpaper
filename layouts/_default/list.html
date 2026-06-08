@@ -13,14 +13,14 @@
         </div>
       {{ end }}
     {{ end }}
-    {{ partial "pagination.html" . }}
+    {{ partial "pagination.html" (dict "paginator" .Paginator) }}
   {{ else }}
     <div class="post-list">
       {{ range .Paginator.Pages }}
         {{ partial "post-card.html" . }}
       {{ end }}
     </div>
-    {{ partial "pagination.html" . }}
+    {{ partial "pagination.html" (dict "paginator" .Paginator) }}
   {{ end }}
 
   {{ if not .Pages }}

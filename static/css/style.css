@@ -46,47 +46,13 @@
   --color-syntax-deletion-bg: #F2DEDE;
 
   --color-header-bg: rgba(250, 249, 247, 0.85);
+  --color-table-stripe: rgba(240, 235, 227, 0.3);
 }
 
-/* --- Dark Mode: follows system when no manual override --- */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --color-bg: #1F1B17;
-    --color-surface: #2B2520;
-    --color-surface-hover: #332C26;
-    --color-code-bg: #15110E;
-    --color-accent: #E89576;
-    --color-accent-hover: #F0A88B;
-    --color-text: #EDE4D9;
-    --color-text-secondary: #A8A099;
-    --color-text-tertiary: #756E66;
-    --color-border: #3A332C;
-    --color-border-light: #2F2924;
-    --grid-color: rgba(218, 119, 86, 0.045);
-    --grid-color-strong: rgba(218, 119, 86, 0.08);
-    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
-    --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.25);
-
-    --color-syntax-keyword: #D49060;
-    --color-syntax-string: #8FB87A;
-    --color-syntax-comment: #756E66;
-    --color-syntax-number: #6FB8A8;
-    --color-syntax-function: #C88860;
-    --color-syntax-type: #C99BAE;
-    --color-syntax-operator: #A8A099;
-    --color-syntax-attribute: #E2A062;
-    --color-syntax-meta: #C9999B;
-    --color-syntax-regexp: #E08060;
-    --color-syntax-addition-text: #8FCC85;
-    --color-syntax-addition-bg: rgba(95, 145, 70, 0.18);
-    --color-syntax-deletion-text: #E08585;
-    --color-syntax-deletion-bg: rgba(160, 65, 65, 0.18);
-
-    --color-header-bg: rgba(31, 27, 23, 0.85);
-  }
-}
-
-/* --- Dark Mode: forced via [data-theme="dark"] --- */
+/* --- Dark Mode --- */
+/* Single source of truth for dark mode colors.
+   Applied via [data-theme="dark"] (manual toggle)
+   OR system preference with no manual override. */
 :root[data-theme="dark"] {
   --color-bg: #1F1B17;
   --color-surface: #2B2520;
@@ -120,6 +86,14 @@
   --color-syntax-deletion-bg: rgba(160, 65, 65, 0.18);
 
   --color-header-bg: rgba(31, 27, 23, 0.85);
+  --color-table-stripe: rgba(50, 40, 32, 0.35);
+}
+
+/* System dark mode (only when user has not manually overridden) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+  }
 }
 
 /* --- Reset --- */
@@ -557,9 +531,21 @@ img {
 
 /* --- Post Body + TOC Layout --- */
 .post-body-wrapper {
-  position: relative;
-  max-width: var(--content-width);
+  display: flex;
+  gap: 2rem;
+  max-width: var(--page-width);
   margin: 0 auto;
+}
+
+.post-body-wrapper .post-content {
+  flex: 1;
+  min-width: 0;
+  max-width: var(--content-width);
+}
+
+.toc-sidebar {
+  flex-shrink: 0;
+  width: var(--sidebar-width);
 }
 
 /* --- Post Content Typography --- */
@@ -896,7 +882,7 @@ figure.highlight .hljs-meta {
 }
 
 .post-content tr:nth-child(even) {
-  background: rgba(240, 235, 227, 0.3);
+  background: var(--color-table-stripe);
 }
 
 .post-content img {
@@ -912,13 +898,6 @@ figure.highlight .hljs-meta {
 }
 
 /* --- TOC Sidebar --- */
-.toc-sidebar {
-  position: absolute;
-  left: calc(100% + 2rem);
-  top: 0;
-  width: var(--sidebar-width);
-}
-
 .toc-wrapper {
   position: sticky;
   top: calc(var(--header-height) + 2rem);
@@ -1318,4 +1297,51 @@ figure.highlight .hljs-meta {
   .post-nav a {
     max-width: 100%;
   }
+}
+
+/* --- Code Copy Button --- */
+.code-copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 4px 10px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--color-text-tertiary);
+  background: transparent;
+  border: 1px solid var(--color-border-light, rgba(200,195,188,0.4));
+  border-radius: var(--radius);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.highlight:hover .code-copy-btn,
+figure.highlight:hover .code-copy-btn {
+  opacity: 1;
+}
+
+.code-copy-btn:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.code-copy-btn.copied {
+  color: #3c763d;
+  border-color: #3c763d;
+}
+
+/* --- Reading Progress Bar --- */
+.reading-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2.5px;
+  background: var(--color-accent);
+  transform-origin: left;
+  transform: scaleX(0);
+  z-index: 1000;
+  pointer-events: none;
+  transition: transform 0.05s linear;
 }

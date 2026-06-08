@@ -3,7 +3,7 @@
     {{ with .Site.Params.copyright }}
       <p>{{ . | safeHTML }}</p>
     {{ else }}
-      <p>&copy; {{ now.Format "2006" }} awyme</p>
+      <p>&copy; {{ now.Format "2006" }} {{ $.Site.Params.author | default $.Site.Title }}</p>
     {{ end }}
     <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> &middot; Theme <a href="https://github.com/qinmenghua/hugo-theme-warmpaper" target="_blank" rel="noopener">Warmpaper</a></p>
     <p class="footer-original">Original <a href="https://github.com/finch-xu/hexo-theme-warmpaper" target="_blank" rel="noopener">warmpaper</a> by <a href="https://pidan.dev" target="_blank" rel="noopener">finch-xu</a></p>

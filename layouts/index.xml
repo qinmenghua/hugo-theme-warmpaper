@@ -23,7 +23,7 @@
         {{- end -}}
       {{- end -}}
       <guid>{{ .Permalink }}</guid>
-      <description>{{ .Summary | html }}</description>
+      <description>{{ if $.Site.Params.rss_full_content }}{{ .Content | html }}{{ else }}{{ .Summary | html }}{{ end }}</description>
     </item>
     {{- end -}}
   </channel>

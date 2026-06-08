@@ -40,10 +40,10 @@
     {{ end }}
     <nav class="post-nav">
       {{ with .PrevInSection }}
-        <a class="prev" href="{{ .RelPermalink }}">&laquo; {{ .Title }}</a>
+        <a class="prev" href="{{ .RelPermalink }}" aria-label="上一篇: {{ .Title }}">&laquo; {{ .Title }}</a>
       {{ end }}
       {{ with .NextInSection }}
-        <a class="next" href="{{ .RelPermalink }}">{{ .Title }} &raquo;</a>
+        <a class="next" href="{{ .RelPermalink }}" aria-label="下一篇: {{ .Title }}">{{ .Title }} &raquo;</a>
       {{ end }}
     </nav>
   </footer>
