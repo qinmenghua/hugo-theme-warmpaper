@@ -92,7 +92,10 @@
   mql.addEventListener('change', function () {
     var hasManual = false;
     try { hasManual = !!localStorage.getItem(STORAGE_KEY); } catch (e) {}
-    if (!hasManual) syncIcon();
+    if (!hasManual) {
+      document.documentElement.setAttribute('data-theme', currentTheme());
+      syncIcon();
+    }
   });
 
   syncIcon();

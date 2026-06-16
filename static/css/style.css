@@ -89,9 +89,9 @@
   --color-table-stripe: rgba(50, 40, 32, 0.35);
 }
 
-/* System dark mode (only when user has not manually overridden) */
+/* System dark mode — color-scheme tells the browser to use dark UI controls */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) {
+  :root {
     color-scheme: dark;
   }
 }
@@ -535,6 +535,7 @@ img {
   gap: 2rem;
   max-width: var(--page-width);
   margin: 0 auto;
+  justify-content: center;
 }
 
 .post-body-wrapper .post-content {
