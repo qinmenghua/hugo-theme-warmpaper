@@ -1,4 +1,5 @@
 baseURL = "/"
+defaultContentLanguage = "zh-cn"
 locale = "zh-CN"
 title = "hugo warmpaper theme"
 theme = "warmpaper"

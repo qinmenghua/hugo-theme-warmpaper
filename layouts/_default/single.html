@@ -24,11 +24,6 @@
     <div class="post-content">
       {{ .Content }}
     </div>
-    {{ if and $.Site.Params.toc $.Site.Params.toc.enable }}
-      {{ if $.TableOfContents }}
-        {{ partial "toc.html" $ }}
-      {{ end }}
-    {{ end }}
   </div>
   <footer class="post-footer">
     {{ with .Params.tags }}
@@ -48,6 +43,11 @@
     </nav>
   </footer>
 </article>
+{{ if and $.Site.Params.toc $.Site.Params.toc.enable }}
+  {{ if $.TableOfContents }}
+    {{ partial "toc.html" $ }}
+  {{ end }}
+{{ end }}
 {{ else }}
 <article class="page-content">
   <h1>{{ .Title }}</h1>
