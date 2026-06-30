@@ -1,0 +1,38 @@
+[updated]
+other = "Updated"
+
+[readingTime]
+other = "About"
+
+[minutesRead]
+other = "min read"
+
+[prevPost]
+other = "Previous"
+
+[nextPost]
+other = "Next"
+
+[contents]
+other = "Contents"
+
+[noData]
+other = "No pages yet."
+
+[noTags]
+other = "No tags yet."
+
+[noCategories]
+other = "No categories yet."
+
+[tags]
+other = "Tags"
+
+[categories]
+other = "Categories"
+
+[notFound]
+other = "Page not found"
+
+[backHome]
+other = "Back to Home"

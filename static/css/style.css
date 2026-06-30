@@ -96,6 +96,15 @@
   }
 }
 
+/* Manual dark mode via data-theme attribute */
+html[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+}
+
 /* --- Reset --- */
 *,
 *::before,
@@ -541,10 +550,13 @@ img {
   top: calc(var(--header-height) + 2rem);
   left: calc(50% + var(--content-width) / 2 + 2rem);
   width: var(--sidebar-width);
+  z-index: 10;
+}
+
+.toc-wrapper {
   max-height: calc(100vh - var(--header-height) - 4rem);
   overflow-y: auto;
   padding-left: 1rem;
-  z-index: 10;
 }
 
 /* --- Post Content Typography --- */

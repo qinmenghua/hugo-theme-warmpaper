@@ -19,41 +19,67 @@
   });
 })();
 
+// TOC scroll tracking
 (function () {
-  // TOC scroll tracking
-  var tocLinks = document.querySelectorAll('.toc a');
-  if (!tocLinks.length) return;
+  var tocNav = document.querySelector('#TableOfContents');
+  if (!tocNav) return;
 
   var headings = document.querySelectorAll(
     '.post-content h1[id], .post-content h2[id], .post-content h3[id], .post-content h4[id]'
   );
-  if (!headings.length) return;
+  var tocLinks = document.querySelectorAll('#TableOfContents a');
+  if (!headings.length || !tocLinks.length) return;
 
-  function setActive(id) {
-    tocLinks.forEach(function (link) {
-      link.classList.remove('active');
-      if (link.getAttribute('href') === '#' + id) {
-        link.classList.add('active');
-      }
+  var activeLink = null;
+
+  function getOffsets() {
+    var offsets = [];
+    headings.forEach(function (h) {
+      offsets.push({ id: h.id, offset: h.offsetTop });
     });
+    offsets.sort(function (a, b) { return a.offset - b.offset; });
+    return offsets;
   }
 
-  var observer = new IntersectionObserver(
-    function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          setActive(entry.target.getAttribute('id'));
-        }
-      });
-    },
-    {
-      rootMargin: '-80px 0px -75% 0px',
-    }
-  );
+  var offsets = getOffsets();
 
-  headings.forEach(function (heading) {
-    observer.observe(heading);
+  function scrollHandler() {
+    var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    var newActive = null;
+
+    offsets.forEach(function (section) {
+      if (scrollTop >= section.offset - 20) {
+        newActive = section.id;
+      }
+    });
+
+    if (!newActive) return;
+
+    var link = tocNav.querySelector('a[href="#' + newActive + '"]');
+    if (link && link !== activeLink) {
+      if (activeLink) activeLink.classList.remove('active');
+      link.classList.add('active');
+      activeLink = link;
+    }
+  }
+
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (!ticking) {
+      requestAnimationFrame(function () {
+        scrollHandler();
+        ticking = false;
+      });
+      ticking = true;
+    }
   });
+
+  window.addEventListener('resize', function () {
+    offsets = getOffsets();
+    scrollHandler();
+  });
+
+  scrollHandler();
 })();
 
 // Theme toggle
@@ -163,3 +189,4 @@
     bar.style.transform = 'scaleX(' + progress + ')';
   }, { passive: true });
 })();
+

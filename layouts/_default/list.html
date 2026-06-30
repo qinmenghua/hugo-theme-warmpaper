@@ -3,8 +3,9 @@
   <h1 class="archive-title">{{ .Title }}</h1>
 
   {{ if eq .Kind "section" }}
-    {{ $pages := .Paginator.Pages }}
-    {{ range $pages.GroupByDate "2006" }}
+    {{ $pages := .Site.RegularPages }}
+    {{ $sectionPages := where $pages "Section" .Section }}
+    {{ range $sectionPages.GroupByDate "2006" }}
       <h2 class="archive-year">{{ .Key }}</h2>
       {{ range .Pages }}
         <div class="archive-post">
@@ -13,7 +14,6 @@
         </div>
       {{ end }}
     {{ end }}
-    {{ partial "pagination.html" (dict "paginator" .Paginator) }}
   {{ else }}
     <div class="post-list">
       {{ range .Paginator.Pages }}
@@ -23,8 +23,11 @@
     {{ partial "pagination.html" (dict "paginator" .Paginator) }}
   {{ end }}
 
-  {{ if not .Pages }}
-    <p class="no-data">{{ T "noData" | default "No pages yet." }}</p>
+  {{ if eq .Kind "section" }}
+    {{ $sectionPages := where .Site.RegularPages "Section" .Section }}
+    {{ if not $sectionPages }}
+      <p class="no-data">{{ T "noData" | default "No pages yet." }}</p>
+    {{ end }}
   {{ end }}
 </div>
 {{ end }}
